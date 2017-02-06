@@ -18,6 +18,13 @@ function main() {
   cfg.ignore_https_cert = cfg.ignore_https_cert === 'true';
   cfg.are_remotes_in_pac_https = cfg.are_remotes_in_pac_https === 'true';
 
+  //if not set on command line, read proxy user and password from PROXY_USR and PROXY_PWD environment variables if they are set
+  if(!cfg.usr || !cfg.pwd)
+    if(process.env.PROXY_USR)
+      cfg.usr = process.env.PROXY_USR;
+    if(process.env.PROXY_PWD)
+      cfg.pwd = process.env.PROXY_PWD;
+
   if (!cfg.local_host || !cfg.local_port || !cfg.remote_host || !cfg.remote_port || !cfg.usr || !cfg.pwd)
     return console.error('Usage of parameters:\n'
       + '-local_host host\t' + 'Listening address. Default: localhost. (* means all interfaces)\n'
